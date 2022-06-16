@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# File: sl/urls.py
+
 """sl URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -15,7 +18,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from ls import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', views.home_page, name='home'),
 ]
