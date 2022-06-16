@@ -4,6 +4,8 @@
 
 from django.urls import resolve
 from django.test import TestCase
+from django.http import HttpRequest
+
 from ls.views import home_page
 
 # Create your tests here.
@@ -22,3 +24,14 @@ class HomePageTest(TestCase):
                             # returns a ResolverMatch object:
                   # metadata of URL incl the view function: found.func
         self.assertEqual(found.func, home_page)
+
+    def test_home_page_returns_correct_html(self):
+        request = HttpRequest()  # object seen by Django
+                                 # when browser asks for a page
+        response = home_page(request)
+        html = response.content.decode('utf8')
+        if not html:
+            print("No text (html) returned!")
+        self.assertTrue(html.startswith('<html>'))
+        self.assertIn('<title>To-Do lists</title>', html)
+        self.assertTrue(html.endswith('</html>'))
