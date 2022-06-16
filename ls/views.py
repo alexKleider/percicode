@@ -6,6 +6,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 # Create your views here.
+# Each view takes an HttpRequest parameter 
+# and must return an HttpResponse object.
 
 def home_page(request):
 #1  return HttpResponse()
