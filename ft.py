@@ -3,6 +3,8 @@
 # File: ft.py (functional_tests.py)
 
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
 import unittest
 from selenium.webdriver.common.by import By
 
@@ -39,11 +41,11 @@ class NewVisitorTest(unittest.TestCase):
 
         # She notices the page title and header mention to-do lists
         self.assertIn('To-Do', self.browser.title)
-        header_text = self.browser.find_element('name', 'h1').text
+        header_text = self.browser.find_element(By.TAG_NAME, 'h1').text
         self.assertIn('To-Do', header_text)
 
         # She is invited to enter a to-do item straight away
-        inputbox = self.browser.find_element('id', 'id_new_item')
+        inputbox = self.browser.find_element(By.ID, 'id_new_item')
         self.assertEqual(
                 inputbox.get_attribute('placeholder'),
                 'Enter a to-do item'
@@ -61,7 +63,9 @@ class NewVisitorTest(unittest.TestCase):
         table = self.browser.find_element('id', 'id_list_table')
         rows = table.find_elements('tag name', 'tr')
         self.assertTrue(
-            any(row.text == '1: Buy peacock feathers' for row in rows)
+            any(row.text == '1: Buy peacock feathers'
+                for row in rows),
+            "New to-do item did not appear in table"
             )
 
         # There is still a text box inviting her to add another item.  She
