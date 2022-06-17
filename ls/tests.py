@@ -2,6 +2,7 @@
 
 # File: ls/tests.py
 
+from django.template.loader import render_to_string
 from django.urls import resolve
 from django.test import TestCase
 from django.http import HttpRequest
@@ -26,12 +27,18 @@ class HomePageTest(TestCase):
         self.assertEqual(found.func, home_page)
 
     def test_home_page_returns_correct_html(self):
-        request = HttpRequest()  # object seen by Django
-                                 # when browser asks for a page
-        response = home_page(request)
+        # instead of creating an HttpRequest object
+        # and calling the view function directly...
+#       request = HttpRequest()  # object seen by Django
+#                                # when browser asks for a page
+#       response = home_page(request)
+#       ...use Django testclient...
+        response = self.client.get('/')
+
+
         html = response.content.decode('utf8')
-        if not html:
-            print("No text (html) returned!")
-        self.assertTrue(html.startswith('<html>'))
+        self.assertTrue(html.strip().startswith('<html>'))
         self.assertIn('<title>To-Do lists</title>', html)
-        self.assertTrue(html.endswith('</html>'))
+        self.assertTrue(html.strip().endswith('</html>'))
+
+        self.assertTemplateUsed(response, 'home.html')
