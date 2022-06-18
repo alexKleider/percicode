@@ -8,8 +8,41 @@ from django.test import TestCase
 from django.http import HttpRequest
 
 from ls.views import home_page
+from ls.models import Item
 
 # Create your tests here.
+
+class ItemModelTest(TestCase):
+
+    def test_saving_and_retrieving_items(self):
+        """
+        See https://docs.djangoproject.com/en/1.11/intro/tutorial01/
+        Written in a (not recommended) very verbose style.
+        Wait until Chapter 15 for concise version.
+        """
+        first_item = Item()  # django.db.models.Item
+        first_item.text = 'The first (ever) list item'
+        first_item.save()
+
+        second_item = Item()  # django.db.models.Item
+        second_item.text = 'Item the second'
+        second_item.save()
+
+        saved_items = Item.objects.all()
+            # database querying API: Item.objects (a class attribute)
+            # retrieves all records for table in question
+            # in a (list like object called a Query Set
+            # from which we can extract individual objects or
+            # call further functions like .count()
+        self.assertEqual(saved_items.count(), 2)
+
+        first_saved_item = saved_items[0]
+        second_saved_item = saved_items[1]
+        self.assertEqual(first_saved_item.text,
+                'The first (ever) list item')
+        self.assertEqual(second_saved_item.text,
+                'Item the second')
+
 
 class HomePageTest(TestCase):
 
