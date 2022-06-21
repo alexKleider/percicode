@@ -24,6 +24,11 @@ PARTIAL_LINK_TEXT = "partial link text"
 TAG_NAME = "tag name"  # ****
 CLASS_NAME = "class name"
 CSS_SELECTOR = "css selector"
+
+Django's TestCase creates a special test database.
+Here we use pypi's unittest.TestCase so need to create one
+in settings.py.
+
 """
 
 class NewVisitorTest(unittest.TestCase):
