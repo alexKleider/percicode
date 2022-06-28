@@ -71,7 +71,8 @@ class HomePageTest(TestCase):
         response = self.client.post('/',
                 data={'item_text': 'A new list item'})
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/')
+        self.assertEqual(response['location'],
+                '/lists/the-only-list-in-the-world/')
 
     def test_only_saves_items_when_necessary(self):
         self.client.get('/')
@@ -85,3 +86,21 @@ class HomePageTest(TestCase):
 
         self.assertIn('itemy 1', response.content.decode())  # assert
         self.assertIn('itemy 2', response.content.decode())
+
+
+class ListViewTest(TestCase):
+
+
+    def test_displays_all_items(self):
+        # setup
+        Item.objects.create(text='itemy 1')
+        Item.objects.create(text='itemy 2')
+        # exercise
+        response = self.client.get('/lists/the-only-list-in-the-world/')
+        # assert
+        self.assertContains(response, 'itemy 1')
+        self.assertContains(response, 'itemy 2')
+        # 'assertContains': provided by Django- knows how to deal with
+        # responses and the bytes of their content. Therefore no need:
+#       self.assertIn('itemy 1', response.content.decode())
+#       self.assertIn('itemy 2', response.content.decode())
