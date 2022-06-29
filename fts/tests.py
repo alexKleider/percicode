@@ -47,7 +47,8 @@ class NewVisitorTest(LiveServerTestCase):
         start_time = time.time()
         while True:
             try:
-                table = self.browser.find_element(By.ID, 'id_list_table')
+                table = self.browser.find_element(By.ID,
+                                                'id_list_table')
                 rows = table.find_elements(By.TAG_NAME, 'tr')
                 self.assertIn(row_text, [row.text for row in rows])
                 return
@@ -95,9 +96,9 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
 
         # The page updates again, and now shows both items on her list
-        self.wait_for_row_in_list_table('1: Buy peacock feathers')
         self.wait_for_row_in_list_table(
                 '2: Use peacock feathers to make a fly')
+        self.wait_for_row_in_list_table('1: Buy peacock feathers')
 
         # Edith wonders whether the site will remember her list. Then she sees
         # that the site has generated a unique URL for her -- there is some
